@@ -182,13 +182,6 @@ class Display {
         }
     }
 
-    fun dothandler() {
-        if (!displayregister.contains(".")) {
-            if (displayregister.equals("0")) displayregister = "0."
-            else displayregister = "$displayregister."
-        }
-    }
-
     fun getString() : String {
         return displayregister
     }
