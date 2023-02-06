@@ -25,40 +25,25 @@ class MainActivity : AppCompatActivity() {
         displayreg.setString("0")
         updateScreen()
 
-        binding.button0.setOnClickListener{inputdigits('0')}
-        binding.button1.setOnClickListener{inputdigits('1')}
-        binding.button2.setOnClickListener{inputdigits('2')}
-        binding.button3.setOnClickListener{inputdigits('3')}
-        binding.button4.setOnClickListener{inputdigits('4')}
-        binding.button5.setOnClickListener{inputdigits('5')}
-        binding.button6.setOnClickListener{inputdigits('6')}
-        binding.button7.setOnClickListener{inputdigits('7')}
-        binding.button8.setOnClickListener{inputdigits('8')}
-        binding.button9.setOnClickListener{inputdigits('9')}
-        binding.dot.setOnClickListener{inputdigits('.')}
-
-        //binding.dot.setOnClickListener { displayreg.dothandler(); concat=true; updateScreen() }
+        binding.button0.setOnClickListener{inputdigits('0'); updateScreen()}
+        binding.button1.setOnClickListener{inputdigits('1'); updateScreen()}
+        binding.button2.setOnClickListener{inputdigits('2'); updateScreen()}
+        binding.button3.setOnClickListener{inputdigits('3'); updateScreen()}
+        binding.button4.setOnClickListener{inputdigits('4'); updateScreen()}
+        binding.button5.setOnClickListener{inputdigits('5'); updateScreen()}
+        binding.button6.setOnClickListener{inputdigits('6'); updateScreen()}
+        binding.button7.setOnClickListener{inputdigits('7'); updateScreen()}
+        binding.button8.setOnClickListener{inputdigits('8'); updateScreen()}
+        binding.button9.setOnClickListener{inputdigits('9'); updateScreen()}
+        binding.dot.setOnClickListener{inputdigits('.'); updateScreen()}
 
         binding.plusMinus.setOnClickListener { displayreg.negate(); updateScreen() }
 
         binding.backspace.setOnClickListener { displayreg.backspace(); updateScreen() }
 
-        binding.clear.setOnClickListener {
-            displayreg.setString("0")
-            registers.fill(Float.NaN, 0)
-            binding.info.text = ""
-            operation = ""
-            concat = true
-            clearhist = false
-            updateScreen()
-            logAll()
-        }
+        binding.clear.setOnClickListener { clear(); updateScreen(); logAll() }
 
-        binding.clearEntry.setOnClickListener {
-            displayreg.setString("0")
-            updateScreen()
-            logAll()
-        }
+        binding.clearEntry.setOnClickListener {displayreg.setString("0"); updateScreen(); logAll() }
 
         binding.plus.setOnClickListener { operator("+") }
 
@@ -69,6 +54,15 @@ class MainActivity : AppCompatActivity() {
         binding.divide.setOnClickListener { operator("/") }
 
         binding.equals.setOnClickListener { executeEqual() }
+    }
+
+    private fun clear() {
+        displayreg.setString("0")
+        registers.fill(Float.NaN, 0)
+        binding.info.text = ""
+        operation = ""
+        concat = true
+        clearhist = false
     }
 
     private fun operator(requestedop: String) {
@@ -94,7 +88,6 @@ class MainActivity : AppCompatActivity() {
     private fun inputdigits(digitIn: Char) {
         displayreg.inputbutton(digitIn, concat)
         concat = true
-        updateScreen()
     }
 
     private fun execute() {
