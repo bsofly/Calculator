@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     private var concat = true
     private var opBtnHit = false
     private var clearhist = false
+    private var displayinfo: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,41 +26,60 @@ class MainActivity : AppCompatActivity() {
         displayreg.setString("0")
         updateScreen()
 
-        binding.button0.setOnClickListener{inputdigits('0'); updateScreen()}
-        binding.button1.setOnClickListener{inputdigits('1'); updateScreen()}
-        binding.button2.setOnClickListener{inputdigits('2'); updateScreen()}
-        binding.button3.setOnClickListener{inputdigits('3'); updateScreen()}
-        binding.button4.setOnClickListener{inputdigits('4'); updateScreen()}
-        binding.button5.setOnClickListener{inputdigits('5'); updateScreen()}
-        binding.button6.setOnClickListener{inputdigits('6'); updateScreen()}
-        binding.button7.setOnClickListener{inputdigits('7'); updateScreen()}
-        binding.button8.setOnClickListener{inputdigits('8'); updateScreen()}
-        binding.button9.setOnClickListener{inputdigits('9'); updateScreen()}
-        binding.dot.setOnClickListener{inputdigits('.'); updateScreen()}
+        binding.button0.setOnClickListener{inputdigits('0'); opBtnHit = false; updateScreen()}
+        binding.button1.setOnClickListener{inputdigits('1'); opBtnHit = false; updateScreen()}
+        binding.button2.setOnClickListener{inputdigits('2'); opBtnHit = false; updateScreen()}
+        binding.button3.setOnClickListener{inputdigits('3'); opBtnHit = false; updateScreen()}
+        binding.button4.setOnClickListener{inputdigits('4'); opBtnHit = false; updateScreen()}
+        binding.button5.setOnClickListener{inputdigits('5'); opBtnHit = false; updateScreen()}
+        binding.button6.setOnClickListener{inputdigits('6'); opBtnHit = false; updateScreen()}
+        binding.button7.setOnClickListener{inputdigits('7'); opBtnHit = false; updateScreen()}
+        binding.button8.setOnClickListener{inputdigits('8'); opBtnHit = false; updateScreen()}
+        binding.button9.setOnClickListener{inputdigits('9'); opBtnHit = false; updateScreen()}
+        binding.dot.setOnClickListener{inputdigits('.'); opBtnHit = false; updateScreen()}
 
-        binding.plusMinus.setOnClickListener { displayreg.negate(); updateScreen() }
+        binding.plusMinus.setOnClickListener {
+            displayreg.negate()
+            opBtnHit = false
+            updateScreen()
+        }
 
-        binding.backspace.setOnClickListener { displayreg.backspace(); updateScreen() }
+        binding.backspace.setOnClickListener {
+            displayreg.backspace()
+            opBtnHit = false
+            updateScreen()
+        }
 
-        binding.clear.setOnClickListener { clear(); updateScreen(); logAll() }
+        binding.clear.setOnClickListener {
+            clear()
+            opBtnHit = false
+            updateScreen()
+            logAll()
+        }
 
-        binding.clearEntry.setOnClickListener {displayreg.setString("0"); updateScreen(); logAll() }
+        binding.clearEntry.setOnClickListener {
+            displayreg.setString("0")
+            opBtnHit = false
+            updateScreen()
+            logAll()
+        }
 
-        binding.plus.setOnClickListener { operator("+") }
+        binding.plus.setOnClickListener { operator("+"); updateScreen() }
+        binding.minus.setOnClickListener { operator("-"); updateScreen() }
+        binding.times.setOnClickListener { operator("*"); updateScreen() }
+        binding.divide.setOnClickListener { operator("/"); updateScreen() }
 
-        binding.minus.setOnClickListener { operator("-") }
-
-        binding.times.setOnClickListener { operator("*") }
-
-        binding.divide.setOnClickListener { operator("/") }
-
-        binding.equals.setOnClickListener { executeEqual() }
+        binding.equals.setOnClickListener {
+            executeEqual()
+            opBtnHit = false
+            updateScreen()
+        }
     }
 
     private fun clear() {
         displayreg.setString("0")
         registers.fill(Float.NaN, 0)
-        binding.info.text = ""
+        displayinfo = ""
         operation = ""
         concat = true
         clearhist = false
@@ -108,18 +128,18 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun infodisplay(){
         if (!registers[1].isNaN() && !clearhist && !opBtnHit) {
-            binding.info.text = "${registers[0].toString()} $operation " +
+            displayinfo = "${registers[0].toString()} $operation " +
                     "${registers[1].toString()} = "
             clearhist = true
         } else {
-            binding.info.text = "${registers[0].toString()} $operation"
+            displayinfo = "${registers[0].toString()} $operation"
             clearhist = false
         }
     }
 
     private fun updateScreen() {
-        opBtnHit = false
         binding.display.text = displayreg.getString()
+        binding.info.text = displayinfo
     }
 
     fun logAll() {
@@ -153,7 +173,7 @@ class Display {
     }
 
     fun inputbutton(digit: Char, concatflag: Boolean) {
-        if (displayregister.equals("0") || !concatflag)
+        if ((displayregister.equals("0") && digit != '.') || !concatflag)
             displayregister = ""
         displayregister += digit
     }
