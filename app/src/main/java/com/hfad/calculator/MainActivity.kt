@@ -66,32 +66,10 @@ class MainActivity : AppCompatActivity() {
             logAll()
         }
 
-        binding.plus.setOnClickListener {
-//            concat = false
-            operator("+")
-            setOpScreenParam()
-//            opBtnHit = true
-//            updateScreen()
-        }
-
-        binding.minus.setOnClickListener {
-            concat = false
-            operator("-")
-            opBtnHit = true
-            updateScreen()
-        }
-        binding.times.setOnClickListener {
-            concat = false
-            operator("*")
-            opBtnHit = true
-            updateScreen()
-        }
-        binding.divide.setOnClickListener {
-            concat = false
-            operator("/")
-            opBtnHit = true
-            updateScreen()
-        }
+        binding.plus.setOnClickListener { operator("+"); setOpScreenParam() }
+        binding.minus.setOnClickListener { operator("-"); setOpScreenParam() }
+        binding.times.setOnClickListener { operator("*"); setOpScreenParam() }
+        binding.divide.setOnClickListener { operator("/"); setOpScreenParam() }
 
         binding.equals.setOnClickListener {
             concat = false
