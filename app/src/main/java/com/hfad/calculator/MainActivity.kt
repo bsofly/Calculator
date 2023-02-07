@@ -51,6 +51,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.clear.setOnClickListener {
+            displayreg.setString("0")
+            concat = true
             clear()
             opBtnHit = false
             updateScreen()
@@ -64,24 +66,56 @@ class MainActivity : AppCompatActivity() {
             logAll()
         }
 
-        binding.plus.setOnClickListener { operator("+"); updateScreen() }
-        binding.minus.setOnClickListener { operator("-"); updateScreen() }
-        binding.times.setOnClickListener { operator("*"); updateScreen() }
-        binding.divide.setOnClickListener { operator("/"); updateScreen() }
+        binding.plus.setOnClickListener {
+//            concat = false
+            operator("+")
+            setOpScreenParam()
+//            opBtnHit = true
+//            updateScreen()
+        }
+
+        binding.minus.setOnClickListener {
+            concat = false
+            operator("-")
+            opBtnHit = true
+            updateScreen()
+        }
+        binding.times.setOnClickListener {
+            concat = false
+            operator("*")
+            opBtnHit = true
+            updateScreen()
+        }
+        binding.divide.setOnClickListener {
+            concat = false
+            operator("/")
+            opBtnHit = true
+            updateScreen()
+        }
 
         binding.equals.setOnClickListener {
+            concat = false
             executeEqual()
             opBtnHit = false
             updateScreen()
         }
     }
 
+    private fun inputdigits(digitIn: Char) {
+        displayreg.inputbutton(digitIn, concat)
+        concat = true
+    }
+
+    private fun setOpScreenParam() {
+        concat = false
+        opBtnHit = true
+        updateScreen()
+    }
+
     private fun clear() {
-        displayreg.setString("0")
         registers.fill(Float.NaN, 0)
         displayinfo = ""
         operation = ""
-        concat = true
         clearhist = false
     }
 
@@ -91,23 +125,15 @@ class MainActivity : AppCompatActivity() {
         }
         operation = requestedop
         registers[0] = displayreg.getFloat()
-        concat = false
         infodisplay()
-        opBtnHit = true
         logAll()
     }
 
     private fun executeEqual() {
         registers[1] = displayreg.getFloat()
-        concat = false   //Last display to be erased for new operation
         execute()
         updateScreen()
         logAll()
-    }
-
-    private fun inputdigits(digitIn: Char) {
-        displayreg.inputbutton(digitIn, concat)
-        concat = true
     }
 
     private fun execute() {
