@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateScreen() {
-        binding.display.text = viewModel.displayreg.getString()
+        binding.display.text = viewModel.displayreg.displayregister
         binding.info.text = viewModel.displayinfo
     }
 

@@ -116,7 +116,7 @@ class CalculatorViewModel : ViewModel() {
 }
 
 class Display {
-    private var displayregister: String = ""
+    var displayregister: String = ""
 
     fun setString(registerString: String) {
         displayregister = registerString
