@@ -7,7 +7,8 @@ import android.util.Log
 import com.hfad.calculator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
     private var registers = FloatArray(3) { Float.NaN }
     private var operation: String = ""
     private val displayreg = Display()
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -138,6 +139,11 @@ class MainActivity : AppCompatActivity() {
     private fun updateScreen() {
         binding.display.text = displayreg.getString()
         binding.info.text = displayinfo
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     fun logAll() {
