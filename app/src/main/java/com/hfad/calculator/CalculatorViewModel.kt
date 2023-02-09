@@ -1,6 +1,7 @@
 package com.hfad.calculator
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class CalculatorViewModel : ViewModel() {
@@ -9,11 +10,12 @@ class CalculatorViewModel : ViewModel() {
     private var concat = true
     private var opBtnHit = false
     private var clearhist = false
-    var displayinfo: String = ""
+    val displayinfo = MutableLiveData("")
     val displayreg = Display()
 
     init {
         displayreg.setString("0")
+        displayinfo.value = ""
     }
 
     fun negate() {
@@ -52,7 +54,7 @@ class CalculatorViewModel : ViewModel() {
 
     private fun clear() {
         registers.fill(Float.NaN, 0)
-        displayinfo = ""
+        displayinfo.value = ""
         operation = ""
         clearhist = false
     }
@@ -92,11 +94,11 @@ class CalculatorViewModel : ViewModel() {
 
     private fun infodisplay() {
         if (!registers[1].isNaN() && !clearhist && !opBtnHit) {
-            displayinfo = "${registers[0].toString()} $operation " +
+            displayinfo.value = "${registers[0].toString()} $operation " +
                     "${registers[1].toString()} = "
             clearhist = true
         } else {
-            displayinfo = "${registers[0].toString()} $operation"
+            displayinfo.value = "${registers[0].toString()} $operation"
             clearhist = false
         }
     }
@@ -116,48 +118,49 @@ class CalculatorViewModel : ViewModel() {
 }
 
 class Display {
-    var displayregister: String = ""
+    val displayregister = MutableLiveData("")
 
     fun setString(registerString: String) {
-        displayregister = registerString
+        displayregister.value = registerString
     }
 
     fun setFloat(registerFloat: Float) {
-        displayregister = registerFloat.toString()
-        if (displayregister.slice(displayregister.length-2 until displayregister.length)
-            ==".0") {
-            displayregister = displayregister.slice(0 .. displayregister.length-3)
+        displayregister.value = registerFloat.toString()
+        if (displayregister.value?.slice((displayregister.value?.length?.minus(2) ?: 0)
+                    until displayregister.value?.length!!) ==".0") {
+                        displayregister.value =
+                        displayregister.value?.slice(0 .. displayregister.value!!.length-3)
         }
     }
 
     fun inputbutton(digit: Char, concatflag: Boolean) {
-        if ((displayregister.equals("0") && digit != '.') || !concatflag)
-            displayregister = ""
-        displayregister += digit
+        if ((displayregister.value.equals("0") && digit != '.') || !concatflag)
+            displayregister.value = ""
+        displayregister.value += digit
     }
 
     fun negate() {
-        if (displayregister.first() == '-') {
-            displayregister = displayregister.drop(1)
+        if ((displayregister.value?.first() ?: "") == '-') {
+            displayregister.value = displayregister.value?.drop(1)
         }
         else {
-            displayregister = "-$displayregister"
+            displayregister.value = "-$displayregister.value"
         }
     }
 
     fun backspace() {
-        if (displayregister.length <= 1) {
-            displayregister = "0"
+        if ((displayregister.value?.length ?: 0) <= 1) {
+            displayregister.value = "0"
         } else {
-            displayregister = displayregister.dropLast(1)
+            displayregister.value = displayregister.value?.dropLast(1)
         }
     }
 
-    fun getString() : String {
-        return displayregister
+    fun getString() : String? {
+        return displayregister.value
     }
 
     fun getFloat(): Float {
-        return displayregister.toFloat()
+        return displayregister.value?.toFloat() ?: 0.0F
     }
 }
