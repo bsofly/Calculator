@@ -6,6 +6,7 @@ plugins {
 android {
     buildFeatures{
         viewBinding true
+        dataBinding true
     }
     namespace 'com.hfad.calculator'
     compileSdk 33

@@ -16,12 +16,8 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         viewModel = ViewModelProvider(this).get(CalculatorViewModel::class.java)
-
-        viewModel.displayinfo.observe(this, { newValue->
-            binding.info.text = newValue })
-
-        viewModel.displayreg.displayregister.observe(this, { newValue: String->
-            binding.display.text = newValue })
+        binding.calculatorViewModel = viewModel
+        binding.lifecycleOwner = this
 
         binding.button0.setOnClickListener{ viewModel.inputdigits('0') }
         binding.button1.setOnClickListener{ viewModel.inputdigits('1') }
