@@ -19,7 +19,7 @@ class CalculatorViewModel : ViewModel() {
     }
 
     fun negate() {
-        displayreg.negate()
+        displayreg.negatedr()
         opBtnHit = false
     }
 
@@ -139,12 +139,12 @@ class Display {
         displayregister.value += digit
     }
 
-    fun negate() {
+    fun negatedr() {
         if ((displayregister.value?.first() ?: "") == '-') {
             displayregister.value = displayregister.value?.drop(1)
         }
         else {
-            displayregister.value = "-$displayregister.value"
+            displayregister.value = "-${displayregister.value}"
         }
     }
 
