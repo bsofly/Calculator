@@ -59,11 +59,11 @@ class CalculatorViewModel : ViewModel() {
         clearhist = false
     }
 
-    fun operator(requestedop: String) {
+    fun operator(requestedop: Char) {
         if (operation != "" && !displayreg.getFloat().isNaN() && !clearhist && !opBtnHit) {
             executeEqual()
         }
-        operation = requestedop
+        operation = requestedop.toString()
         registers[0] = displayreg.getFloat()
         infodisplay()
         logAll()

@@ -26,18 +26,18 @@ class MainActivity : AppCompatActivity() {
         binding.button4.setOnClickListener{ viewModel.inputdigits('4') }
         binding.button5.setOnClickListener{ viewModel.inputdigits('5') }
         binding.button6.setOnClickListener{ viewModel.inputdigits('6') }
-        binding.button7.setOnClickListener{ viewModel.inputdigits('7') }
+//        binding.button7.setOnClickListener{ viewModel.inputdigits('7') }
         binding.button8.setOnClickListener{ viewModel.inputdigits('8') }
         binding.button9.setOnClickListener{ viewModel.inputdigits('9') }
         binding.dot.setOnClickListener{ viewModel.inputdigits('.') }
         binding.plusMinus.setOnClickListener { viewModel.negate() }
         binding.backspace.setOnClickListener { viewModel.backspace() }
-        binding.clear.setOnClickListener { viewModel.clearall() }
+//        binding.clear.setOnClickListener { viewModel.clearall() }
         binding.clearEntry.setOnClickListener { viewModel.clearEntry() }
-        binding.plus.setOnClickListener { viewModel.operator("+") }
-        binding.minus.setOnClickListener { viewModel.operator("-") }
-        binding.times.setOnClickListener { viewModel.operator("*") }
-        binding.divide.setOnClickListener { viewModel.operator("/") }
+        binding.plus.setOnClickListener { viewModel.operator('+') }
+        binding.minus.setOnClickListener { viewModel.operator('-') }
+        binding.times.setOnClickListener { viewModel.operator('*') }
+        binding.divide.setOnClickListener { viewModel.operator('/') }
         binding.equals.setOnClickListener { viewModel.equalsOp() }
     }
 
